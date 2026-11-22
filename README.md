@@ -185,23 +185,123 @@ If the repository uses a different database, frontend build process, or hosting 
 
 The exact repository tree was not available during preparation of this README. A typical Django project for this website may be organized as follows; use the real repository structure when adapting it:
 
+# Project Structure
+
 ```text
-royal-home-services/
-├── manage.py
-├── requirements.txt
+home cleaning/
+├── admin2/
+│   ├── migrations/
+│   │   ├── 0001_initial.py
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── dashboard_queries.py
+│   ├── locations.py
+│   ├── models.py
+│   ├── permissions.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── backups/
+│   └── db.sqlite3.before-seo-migrations
+├── complaint/
+│   ├── migrations/
+│   │   ├── 0001_initial.py
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+├── config/
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── employes/
+│   ├── migrations/
+│   │   ├── 0001_initial.py
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+├── homepage/
+│   ├── migrations/
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_category_service.py
+│   │   ├── 0003_seo_fields.py
+│   │   ├── 0004_seed_static_page_seo.py
+│   │   └── __init__.py
+│   ├── static/
+│   │   └── homepage/
+│   │       └── css/
+│   │           └── tailwind.css
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── context_processors.py
+│   ├── middleware.py
+│   ├── models.py
+│   ├── seo.py
+│   ├── seo_views.py
+│   ├── sitemaps.py
+│   ├── tests.py
+│   └── views.py
+├── media/
+│   └── services/
+├── services/
+├── static/
+│   ├── css/
+│   │   └── tailwind.css
+│   ├── images/
+│   │   ├── favicon/
+│   │   ├── home.jpeg
+│   │   └── logo.jpg
+│   ├── src/
+│   │   └── input.css
+│   └── video/
+│       └── video1.mp4
+├── templates/
+│   ├── admin/
+│   │   ├── _dash_complaint_detail.html
+│   │   ├── _dash_complaints.html
+│   │   ├── _dash_employee_detail.html
+│   │   ├── _dash_employees.html
+│   │   ├── _dash_order_detail.html
+│   │   ├── _dash_orders.html
+│   │   ├── _dash_pagination.html
+│   │   ├── _dash_reviews.html
+│   │   ├── adminlogin.html
+│   │   ├── dasboard.html
+│   │   └── review.html
+│   ├── complaint/
+│   │   ├── about.html
+│   │   ├── complaint.html
+│   │   └── explor_views.html
+│   ├── employe/
+│   │   └── employe.html
+│   ├── seo/
+│   │   └── head.html
+│   ├── footer.html
+│   ├── header.html
+│   ├── home.html
+│   ├── index1.html
+│   └── litenave.html
 ├── .env.example
-├── config/                 # Django project settings and root URLs
-├── apps/                   # Application modules, if grouped this way
-│   ├── services/           # Cleaning service content
-│   ├── bookings/           # Booking enquiries
-│   ├── reviews/             # Customer reviews
-│   ├── support/             # Complaints and customer support
-│   └── team/                # Recruitment or employee workflows
-├── templates/               # Django HTML templates
-├── static/                  # CSS, JavaScript, and static images
-├── media/                   # User-uploaded media (if enabled)
-└── README.md
+├── db.sqlite3
+├── manage.py
+├── package.json
+├── README.md
+├── requirements.txt
+└── SEO_REPORT.md
 ```
+
 
 Do not create these directories solely to match this example. Keep the documentation aligned with the actual source tree.
 
