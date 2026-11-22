@@ -1,0 +1,117 @@
+<section id="page-employees" class="min-w-0">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-8">
+    <div>
+      <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Employees</h1>
+      <p class="mt-2 text-sm text-slate-500">People who registered through the Join Our Team form, newest first.</p>
+    </div>
+    <div class="inline-flex w-fit items-center gap-2 rounded-full bg-white px-4 py-1.5 text-sm text-slate-600 shadow-sm ring-1 ring-inset ring-slate-200">
+      <span class="font-bold text-slate-900">{{ total_all }}</span> total employee{{ total_all|pluralize }}
+    </div>
+  </div>
+
+  <div class="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+    <!-- Tabs -->
+    <div class="hidden max-w-full flex-nowrap items-center gap-1 overflow-x-auto border-b border-slate-200 bg-slate-50/50 px-3 py-3 sm:flex sm:px-4" role="tablist" aria-label="Filter employees by location">
+      {% for tab in location_tabs %}
+      <a href="{{ tab.url }}" role="tab" aria-selected="{% if tab.active %}true{% else %}false{% endif %}"
+         class="inline-flex items-center gap-2 whitespace-nowrap rounded-lg px-3.5 py-1.5 text-sm transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 {% if tab.active %}bg-white text-brand-700 font-semibold shadow-sm ring-1 ring-slate-200{% else %}font-medium text-slate-600 hover:bg-slate-200/50 hover:text-slate-900{% endif %}">
+        {{ tab.label }}
+        <span class="rounded-full px-2 py-0.5 text-[10px] font-bold {% if tab.active %}bg-brand-50 text-brand-700{% else %}bg-slate-200/80 text-slate-600{% endif %}">{{ tab.count }}</span>
+      </a>
+      {% endfor %}
+    </div>
+
+    <form method="get" action="{% url 'dashboard_employees' %}" onsubmit="if (window.matchMedia('(max-width: 639px)').matches) { this.elements.location.value = ''; this.elements.department.disabled = true; }" class="flex min-w-0 flex-col gap-3 border-b border-slate-100 bg-slate-50/50 p-3 sm:flex-row sm:flex-wrap sm:items-center sm:p-4">
+      <input type="hidden" name="location" value="{{ filters.location }}" />
+      <div class="relative w-full min-w-0 sm:min-w-64 sm:max-w-sm sm:flex-1">
+        <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 18a7 7 0 100-14 7 7 0 000 14z"/></svg>
+        </span>
+        <input type="search" name="q" value="{{ filters.q }}" maxlength="100" placeholder="Search name, email, department…" aria-label="Search employees"
+               class="w-full rounded-lg border border-slate-300 bg-white py-2 pl-9 pr-3 text-sm shadow-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20" />
+      </div>
+      <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+        <div class="hidden items-center gap-2 sm:flex">
+          <label for="f-department" class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Dept</label>
+          <select id="f-department" name="department" onchange="this.form.submit()" class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20">
+            <option value="">All</option>
+            {% for d in departments %}<option value="{{ d }}" {% if d == filters.department %}selected{% endif %}>{{ d|capfirst }}</option>{% endfor %}
+          </select>
+        </div>
+        <button type="submit" class="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"><span class="sm:hidden">Search</span><span class="hidden sm:inline">Apply</span></button>
+        {% if filters_active %}<a href="{% url 'dashboard_employees' %}" class="hidden rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 sm:inline-flex">Clear</a>{% endif %}
+      </div>
+    </form>
+
+    {% if page_obj.paginator.count %}
+    <div class="border-b border-slate-100 bg-white px-4 py-3 text-sm text-slate-500 sm:px-6">
+      Showing <span class="font-semibold text-slate-900">{{ page_obj.start_index }}–{{ page_obj.end_index }}</span> of <span class="font-semibold text-slate-900">{{ page_obj.paginator.count }}</span>{% if filters_active %} matching{% endif %} team registration{{ page_obj.paginator.count|pluralize }}.
+    </div>
+    <div class="w-full min-w-0 max-w-full overflow-x-auto" role="region" aria-label="Employee registrations table" tabindex="0">
+      <table class="w-full table-fixed text-left text-xs sm:text-sm">
+        <thead class="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500 border-b border-slate-200">
+          <tr>
+            <th scope="col" class="w-[40%] px-3 py-3 font-semibold sm:px-4 lg:w-[28%] lg:px-5 lg:py-4 xl:w-[20%]">Name</th>
+            <th scope="col" class="w-[35%] px-2 py-3 font-semibold sm:px-4 lg:w-[32%] lg:px-5 lg:py-4 xl:w-[22%]"><span class="lg:hidden">Service</span><span class="hidden lg:inline">Contact</span></th>
+            <th scope="col" class="hidden px-3 py-4 font-semibold lg:table-cell lg:w-[24%] lg:px-5 xl:w-[15%]">Department</th>
+            <th scope="col" class="hidden px-3 py-4 font-semibold xl:table-cell xl:w-[16%]">Location</th>
+            <th scope="col" class="hidden px-3 py-4 font-semibold xl:table-cell xl:w-[13%]">Registered</th>
+            <th scope="col" class="w-[25%] px-2 py-3 text-right font-semibold sm:px-4 lg:w-[16%] lg:px-5 lg:py-4 xl:w-[14%]"><span class="lg:hidden">View</span><span class="hidden lg:inline">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 bg-white">
+      {% for emp in page_obj %}
+        <tr class="group transition hover:bg-slate-50/80">
+          <td class="px-3 py-3 align-top sm:px-4 lg:px-5 lg:py-4">
+            <span class="block break-words font-semibold text-slate-900">{{ emp.username }}</span>
+            <span class="mt-0.5 block text-[10px] text-slate-400 sm:text-xs">ID: {{ emp.pk }}</span>
+          </td>
+          <td class="px-2 py-3 align-top sm:px-4 lg:hidden">
+            <span class="break-words text-slate-700">{{ emp.department|default:"Not provided"|capfirst }}</span>
+          </td>
+          <td class="hidden px-2 py-3 align-top sm:px-4 lg:table-cell lg:px-5 lg:py-4">
+            <div class="break-all font-medium text-slate-700">{{ emp.email|default:"Not provided" }}</div>
+            <div class="break-words text-[10px] text-slate-500 sm:text-xs">{{ emp.phone_number|default:"No phone" }}</div>
+          </td>
+          <td class="hidden px-3 py-4 lg:table-cell lg:px-5">
+            <span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600">{{ emp.department|default:"N/A"|capfirst }}</span>
+          </td>
+          <td class="hidden px-3 py-4 text-slate-700 xl:table-cell">
+            {{ emp.em_location|default:"Not provided" }}
+            {% if emp.area != 'Other / unknown' %}<span class="ml-1 inline-flex items-center rounded-full bg-brand-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-brand-700 ring-1 ring-inset ring-brand-600/20">{{ emp.area }}</span>{% endif %}
+          </td>
+          <td class="hidden px-3 py-4 text-slate-500 xl:table-cell">{{ emp.created_at|date:"M j, Y" }} <span class="text-xs text-slate-400">PKT</span></td>
+          <td class="px-2 py-3 text-right align-top sm:px-4 lg:px-5 lg:py-4">
+            <a href="{% url 'dashboard_employee_detail' emp.pk %}" class="inline-flex items-center justify-center rounded-lg border border-brand-200 bg-white px-2 py-1.5 text-[11px] font-semibold text-brand-700 hover:bg-brand-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 sm:px-3 sm:text-xs">View</a>
+            <span class="hidden lg:inline-block">
+            <form method="post" action="{% url 'dashboard_employee_delete' emp.pk %}" onsubmit="return confirm('Delete the team registration for {{ emp.username|escapejs }}?');" class="inline-block">
+              {% csrf_token %}
+              <input type="hidden" name="q" value="{{ filters.q }}">
+              <input type="hidden" name="location" value="{{ filters.location }}">
+              <input type="hidden" name="department" value="{{ filters.department }}">
+              <input type="hidden" name="page" value="{{ page_obj.number }}">
+              <button type="submit" aria-label="Delete registration for {{ emp.username }}"
+                      class="inline-flex items-center justify-center rounded-lg border border-red-200 px-2 py-1.5 text-[11px] font-semibold text-red-700 transition hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 sm:px-3 sm:text-xs">
+                Delete
+              </button>
+            </form>
+            </span>
+          </td>
+        </tr>
+      {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "admin/_dash_pagination.html" %}
+    {% else %}
+    <div class="px-6 py-20 text-center bg-white">
+      <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+        <svg class="h-6 w-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+      </div>
+      <h3 class="mt-4 text-sm font-semibold text-slate-900">{% if total_all %}No employees match your filters{% else %}No employees yet{% endif %}</h3>
+      <p class="mt-1 text-sm text-slate-500">{% if total_all %}Try adjusting your location, department, or search.{% else %}Team registrations will appear here.{% endif %}</p>
+      {% if filters_active %}<a href="{% url 'dashboard_employees' %}" class="mt-4 inline-flex rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">Clear filters</a>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+</section>

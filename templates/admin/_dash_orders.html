@@ -1,0 +1,118 @@
+<section id="page-orders">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-8">
+    <div>
+      <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Orders Management</h1>
+      <p class="mt-2 text-sm text-slate-500">Customer bookings submitted through the website, newest first.</p>
+    </div>
+    <div class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-sm text-slate-600 shadow-sm ring-1 ring-inset ring-slate-200 w-fit">
+      <span class="font-bold text-slate-900">{{ total_all }}</span> total order{{ total_all|pluralize }}
+    </div>
+  </div>
+
+  <div class="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+    
+    <!-- ============ FILTER BAR ============ -->
+    <form method="get" action="{% url 'dashboard_orders' %}" onsubmit="if (window.matchMedia('(max-width: 1023px)').matches) { this.elements.service.value = ''; this.elements.location.value = ''; this.elements.date_from.value = ''; this.elements.date_to.value = ''; }" class="flex flex-col gap-4 border-b border-slate-100 bg-slate-50/50 p-4">
+      
+      <!-- Search is always visible -->
+      <div class="relative w-full min-w-0 lg:max-w-xs">
+        <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 18a7 7 0 100-14 7 7 0 000 14z"/></svg>
+        </span>
+        <input type="search" name="q" value="{{ filters.q }}" maxlength="100" placeholder="Search name, phone, address…" aria-label="Search orders"
+               class="w-full rounded-lg border border-slate-300 bg-white py-2.5 pl-9 pr-3 text-sm shadow-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20" />
+      </div>
+
+      <!-- Advanced filters: hidden on mobile, visible on lg+ -->
+      <div class="hidden lg:flex lg:flex-wrap lg:items-center lg:gap-3">
+        <div class="flex items-center gap-2">
+          <label for="f-service" class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Service</label>
+          <select id="f-service" name="service" onchange="this.form.submit()" class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20">
+            <option value="">All</option>
+            {% for s in services %}<option value="{{ s }}" {% if s == filters.service %}selected{% endif %}>{{ s|capfirst }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="flex items-center gap-2">
+          <label for="f-location" class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Location</label>
+          <select id="f-location" name="location" onchange="this.form.submit()" class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20">
+            {% for value, label in location_choices %}<option value="{{ value }}" {% if value == filters.location %}selected{% endif %}>{{ label }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="flex items-center gap-2">
+          <label for="f-from" class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Date</label>
+          <input id="f-from" type="date" name="date_from" value="{{ filters.date_from }}" class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20" />
+          <span class="text-xs text-slate-400">to</span>
+          <input type="date" name="date_to" value="{{ filters.date_to }}" aria-label="Preferred date to" class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20" />
+        </div>
+        <div class="flex items-center gap-2 ml-auto">
+          <button type="submit" class="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2">Apply</button>
+          {% if filters_active %}<a href="{% url 'dashboard_orders' %}" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100">Clear</a>{% endif %}
+        </div>
+      </div>
+
+      <div class="lg:hidden">
+        <button type="submit" class="rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500">Search</button>
+      </div>
+
+    </form>
+
+    <!-- ============ RESULTS / TABLE ============ -->
+    {% if page_obj.paginator.count %}
+    <div class="border-b border-slate-100 bg-white px-4 sm:px-6 py-3 text-xs font-medium text-slate-500">
+      Showing <span class="text-slate-900">{{ page_obj.start_index }}–{{ page_obj.end_index }}</span> of <span class="text-slate-900">{{ page_obj.paginator.count }}</span>{% if filters_active %} matching{% endif %} order{{ page_obj.paginator.count|pluralize }} · PKT
+    </div>
+
+    <div class="w-full min-w-0 max-w-full overflow-x-auto" role="region" aria-label="Orders table" tabindex="0">
+      <table class="w-full table-fixed min-w-0 text-left text-sm lg:table-auto lg:min-w-[900px]">
+        <thead class="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500 border-b border-slate-200">
+          <tr>
+            <th class="hidden px-6 py-4 font-semibold lg:table-cell">Order ID</th>
+            <th class="hidden px-6 py-4 font-semibold lg:table-cell">Customer</th>
+            <th class="w-[34%] px-3 py-3 font-semibold sm:px-4 lg:w-auto lg:px-6 lg:py-4">Phone</th>
+            <th class="hidden px-6 py-4 font-semibold lg:table-cell">Service</th>
+            <th class="w-[43%] px-3 py-3 font-semibold sm:px-4 lg:w-auto lg:px-6 lg:py-4">Service location</th>
+            <th class="hidden px-6 py-4 font-semibold lg:table-cell">Pref. Date</th>
+            <th class="hidden px-6 py-4 font-semibold lg:table-cell">Booked On</th>
+            <th class="w-[23%] px-2 py-3 text-right font-semibold sm:px-4 lg:w-auto lg:px-6 lg:py-4"><span class="lg:hidden">View</span><span class="hidden lg:inline">Action</span></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 bg-white">
+          {% for order in page_obj %}
+          <tr class="group hover:bg-slate-50/80 transition-colors">
+            <td class="hidden whitespace-nowrap px-6 py-4 font-semibold text-slate-900 lg:table-cell">#{{ order.pk }}</td>
+            <td class="hidden whitespace-nowrap px-6 py-4 text-slate-700 lg:table-cell">{{ order.full_name }}</td>
+            <td class="break-words px-3 py-3 text-slate-700 sm:px-4 lg:whitespace-nowrap lg:px-6 lg:py-4"><a href="tel:{{ order.phone_number }}" class="font-medium text-brand-700 hover:underline">{{ order.phone_number }}</a></td>
+            <td class="hidden whitespace-nowrap px-6 py-4 text-slate-700 lg:table-cell">
+              <span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600">{{ order.cleaning_service|capfirst }}</span>
+            </td>
+            <td class="break-words px-3 py-3 text-slate-600 sm:px-4 lg:px-6 lg:py-4">
+              <div class="lg:max-w-[200px] lg:truncate" title="{{ order.service_address }}">{{ order.service_address }}</div>
+              <span class="mt-1 inline-flex items-center rounded-full bg-brand-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-brand-700 ring-1 ring-inset ring-brand-600/20">{{ order.area }}</span>
+            </td>
+            <td class="hidden whitespace-nowrap px-6 py-4 font-medium text-slate-500 lg:table-cell">{{ order.preferred_date|date:"M j, Y" }}</td>
+            <td class="hidden whitespace-nowrap px-6 py-4 text-xs text-slate-400 lg:table-cell">{{ order.created_at|date:"M j, Y H:i" }}</td>
+            <td class="px-2 py-3 text-right align-top sm:px-4 lg:px-6 lg:py-4">
+              <a href="{% url 'dashboard_order_detail' order.pk %}" class="inline-flex items-center justify-center rounded-lg border border-brand-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-brand-700 hover:bg-brand-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 sm:text-xs">View</a>
+              <form method="post" action="{% url 'dashboard_order_delete' order.pk %}" onsubmit="return confirm('Delete order #{{ order.pk }}? This cannot be undone.');" class="mt-1 hidden lg:inline-block lg:ml-1 lg:mt-0">
+                {% csrf_token %}
+                <button type="submit" class="inline-flex items-center justify-center rounded-lg border border-red-200 px-2.5 py-1.5 text-[11px] font-semibold text-red-700 hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 sm:text-xs">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "admin/_dash_pagination.html" %}
+    {% else %}
+    <div class="px-6 py-20 text-center bg-white">
+      <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+        <svg class="h-6 w-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      </div>
+      <h3 class="mt-4 text-sm font-semibold text-slate-900">{% if total_all %}No orders match your search{% else %}No orders yet{% endif %}</h3>
+      <p class="mt-1 text-sm text-slate-500">{% if total_all %}Try adjusting your filters or search term.{% else %}Bookings will appear here once submitted.{% endif %}</p>
+      {% if filters_active %}<a href="{% url 'dashboard_orders' %}" class="mt-4 inline-flex rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">Clear filters</a>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+</section>

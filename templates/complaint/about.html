@@ -1,0 +1,338 @@
+{% extends 'index1.html' %}
+
+{% block content %}
+
+{% load static %}
+  <main>
+    {% include "litenave.html" %}
+
+      <!-- ========== SECTION 2.5 — LAZY AUTOPLAY VIDEO ========== -->
+  
+
+<style>
+  #clean-video .video-box {
+    max-width: 576px;
+    margin: 0 auto;
+  }
+  #clean-video #ph-video {
+    display: block;
+    width: 100%;
+    height: 240px !important;
+    object-fit: cover;
+    border-radius: 12px;
+    background: #f1f5f9;
+  }
+  @media (min-width: 640px) {
+    #clean-video #ph-video { height: 280px !important; }
+  }
+</style>
+
+<section id="clean-video" class="max-w-7xl mx-auto px-2 py-2 border-t border-slate-200">
+  <div class="video-box">
+    <video
+      id="ph-video"
+      muted
+      loop
+      playsinline
+      preload="none"
+      aria-label="PureHome professional cleaning in action"
+    >
+      <source data-src="{% static 'video/video1.mp4' %}" type="video/mp4">
+    </video>
+  </div>
+</section>
+
+<script>
+  const v = document.getElementById('ph-video');
+  new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const s = v.querySelector('source');
+      s.src = s.dataset.src;
+      v.load();
+      v.play().catch(() => {});
+      obs.disconnect();
+    });
+  }).observe(v);
+</script>
+
+
+    <!-- ========== END VIDEO SECTION ========== -->
+    <!-- ========== SECTION 1 — HERO ========== -->
+    <section id="hero" class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-16 lg:py-24">
+        <div class="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <!-- Left content -->
+        <div class="max-w-xl">
+          <p class="text-sm font-semibold tracking-wider uppercase text-slate-500 mb-3">About PureHome</p>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.15] text-slate-900">
+            A Cleaner Home.<br>A Better Everyday.
+          </h1>
+          <p class="mt-6 text-lg text-slate-600 leading-relaxed">
+            We bring professional, thoughtful cleaning into your home — so you can focus on what truly matters.
+
+Trusted by homeowners, built on consistency and care.
+
+Currently serving Rawalpindi, Islamabad, Taxila, Tarnol, and nearby areas.
+          </p>
+          <div class="mt-10 flex flex-wrap gap-4">
+            <a href="#booking" class="inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm font-medium text-blue shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2">
+              Book a Cleaning
+            </a>
+            <a href="#services" class="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-7 py-3.5 text-sm font-medium text-slate-700 transition-all hover:border-slate-400 hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2">
+              Explore Our Services
+            </a>
+          </div>
+        </div>
+        <!-- Right hero image -->
+        <div class="relative">
+          <img
+            src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=2070&auto=format&fit=crop"
+            alt="Professional cleaner wiping a kitchen counter in a bright modern home"
+            class="rounded-3xl shadow-lg object-cover w-full h-auto aspect-[4/3]"
+            loading="eager"
+          >
+          <!-- Subtle floating trust card (enhances layout, restrained) -->
+          <div class="absolute -bottom-5 left-5 bg-white shadow-xl rounded-2xl px-5 py-3.5 border border-slate-100 flex items-center gap-3">
+            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-700">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </span>
+            <div>
+              <p class="text-xs font-medium text-slate-500">Trusted by</p>
+              <p class="text-sm font-semibold text-slate-900">2,000+ homeowners</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 2 — OUR STORY ========== -->
+    <section id="story" class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-16 lg:py-24 border-t border-slate-200">
+      <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Image left (editorial style) -->
+        <div class="order-2 md:order-1">
+          <img
+            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop"
+            alt="Bright, tidy living room with natural light and clean surfaces"
+            class="rounded-3xl shadow-md object-cover w-full aspect-[4/5] md:aspect-[4/3]"
+            loading="lazy"
+          >
+        </div>
+        <!-- Content right -->
+        <div class="order-1 md:order-2 max-w-xl">
+          <p class="text-sm font-semibold tracking-wider uppercase text-slate-500 mb-3">Our story</p>
+          <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight leading-tight text-slate-900 mb-6">
+            Built on care, not shortcuts.
+          </h2>
+          <div class="space-y-5 text-slate-600 leading-relaxed">
+            <p>
+              PureHome began with a simple observation: home cleaning should feel effortless for the people who live there.
+              Too often, cleaning services felt rushed, impersonal, or inconsistent. We set out to change that.
+            </p>
+            <p>
+              Today, we work with a team of trained, vetted professionals who treat every home with the same attention
+              they’d give their own. We use thoughtful products, flexible scheduling, and a detail-first approach —
+              because a clean home is about more than appearance. It’s about how it makes you feel.
+            </p>
+            <p class="text-slate-900 font-medium pt-2 border-l-4 border-slate-900 pl-4 italic">
+              “We don’t just clean homes. We create a foundation for better everyday living.”
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- ========== SECTION 3 — MISSION & VISION ========== -->
+    <section class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-16 lg:py-24 border-t border-slate-200">
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <p class="text-sm font-semibold tracking-wider uppercase text-slate-500">Purpose & direction</p>
+        <h2 class="mt-2 text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900">Mission & vision</h2>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-6 lg:gap-8">
+        <!-- Mission card -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm card-hover transition-all">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </span>
+            <h3 class="text-xl font-semibold text-slate-900">Our mission</h3>
+          </div>
+          <p class="text-slate-600 leading-relaxed">
+            To deliver reliable, high-quality home cleaning that respects your space, your time, and your expectations —
+            making professional cleaning accessible, personal, and consistently excellent.
+          </p>
+        </div>
+        <!-- Vision card -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm card-hover transition-all">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+              </svg>
+            </span>
+            <h3 class="text-xl font-semibold text-slate-900">Our vision</h3>
+          </div>
+          <p class="text-slate-600 leading-relaxed">
+            To redefine what homeowners expect from a cleaning service — building a trusted standard where
+            every visit feels thorough, respectful, and genuinely refreshing.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 4 — WHY HOMEOWNERS CHOOSE US ========== -->
+    <section id="services" class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-16 lg:py-24 border-t border-slate-200">
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <p class="text-sm font-semibold tracking-wider uppercase text-slate-500">The difference</p>
+        <h2 class="mt-2 text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900">Why homeowners choose us</h2>
+        <p class="mt-4 text-slate-600">Four reasons clients trust PureHome with their homes.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Feature 1 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm card-hover transition-all">
+          <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-700 mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+            </svg>
+          </span>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Trusted Cleaning Professionals</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Vetted, trained, and insured cleaners who treat your home with respect.</p>
+        </div>
+        <!-- Feature 2 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm card-hover transition-all">
+          <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-700 mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+          </span>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Attention to Every Detail</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">From baseboards to light fixtures, we follow a detailed checklist every visit.</p>
+        </div>
+        <!-- Feature 3 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm card-hover transition-all">
+          <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-700 mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+            </svg>
+          </span>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Flexible Booking Options</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Weekly, bi-weekly, or one-time cleans — scheduled around your life.</p>
+        </div>
+        <!-- Feature 4 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm card-hover transition-all">
+          <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-700 mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1.5m0 15V21m9-9h-1.5M4.5 12H3m15.364-6.364l-1.06 1.06M6.697 17.303l-1.06 1.06m12.728 0l-1.06-1.06M6.697 6.697l-1.06-1.06M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </span>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Thoughtful Cleaning Practices</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Eco-conscious products and methods that are safe for your family and pets.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 5 — OUR CORE VALUES ========== -->
+    <section class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-16 lg:py-24 border-t border-slate-200">
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <p class="text-sm font-semibold tracking-wider uppercase text-slate-500">What guides us</p>
+        <h2 class="mt-2 text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900">Our core values</h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Quality -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 text-center card-hover transition-all">
+          <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-700 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
+            </svg>
+          </span>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Quality</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">We never cut corners. Every clean is checked against a rigorous standard.</p>
+        </div>
+        <!-- Trust -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 text-center card-hover transition-all">
+          <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-700 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+            </svg>
+          </span>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Trust</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Background-checked professionals and transparent communication.</p>
+        </div>
+        <!-- Reliability -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 text-center card-hover transition-all">
+          <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-700 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </span>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Reliability</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">On time, every time. We show up when we say we will, fully prepared.</p>
+        </div>
+        <!-- Customer Care -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 text-center card-hover transition-all">
+          <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-700 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+            </svg>
+          </span>
+          <h3 class="text-base font-semibold text-slate-900 mb-2">Customer Care</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Your satisfaction is personal. We listen, adapt, and follow up.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 6 — OUR IMPACT (PLACEHOLDER STATS) ========== -->
+    <section class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-16 lg:py-24 border-t border-slate-200">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="text-sm font-semibold tracking-wider uppercase text-slate-500">Our impact</p>
+        <h2 class="mt-2 text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900">Numbers that reflect our care</h2>
+        <p class="mt-3 text-sm text-slate-500 italic">(Editable placeholder values — replace with verified company data.)</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+        <!-- Stat 1 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
+          <p class="text-4xl font-semibold tracking-tight text-slate-900">5,000+</p>
+          <p class="mt-2 text-sm font-medium uppercase tracking-wide text-slate-500">Homes cleaned</p>
+          <p class="mt-2 text-xs text-slate-400">*Placeholder — update with real figure</p>
+        </div>
+        <!-- Stat 2 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
+          <p class="text-4xl font-semibold tracking-tight text-slate-900">2,000+</p>
+          <p class="mt-2 text-sm font-medium uppercase tracking-wide text-slate-500">Happy customers</p>
+          <p class="mt-2 text-xs text-slate-400">*Placeholder — update with real figure</p>
+        </div>
+        <!-- Stat 3 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
+          <p class="text-4xl font-semibold tracking-tight text-slate-900">10+</p>
+          <p class="mt-2 text-sm font-medium uppercase tracking-wide text-slate-500">Years of experience</p>
+          <p class="mt-2 text-xs text-slate-400">*Placeholder — update with real figure</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 7 — FINAL CTA ========== -->
+    <section id="booking" class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-16 lg:py-24 border-t border-slate-200">
+      <div class="bg-slate-50 rounded-3xl px-6 py-16 sm:px-12 lg:px-16 text-center border border-slate-200">
+        <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900">Ready to Enjoy a Spotless Home?</h2>
+        <p class="mt-4 text-lg text-slate-600 max-w-xl mx-auto">Book your first cleaning today and experience the PureHome difference — no long-term commitment required.</p>
+        <div class="mt-8">
+          <a href="/#book" class="inline-flex items-center justify-center rounded-full bg-blue-800 px-8 py-4 text-sm font-medium text-white shadow-md transition-all hover:scale-105 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2">
+            Book Your Cleaning
+          </a>
+        </div>
+        <p class="mt-4 text-xs text-slate-500">Flexible scheduling · Satisfaction guaranteed</p>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 8 — FOOTER ========== -->
+
+  </main>
+
+
+
+          {% endblock content %}

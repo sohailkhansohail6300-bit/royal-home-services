@@ -1,0 +1,21 @@
+{# SEO <head> tags. Rendered once, from header.html. All values come from homepage/seo.py (autoescaped). #}
+{% if seo %}
+<title>{{ seo.title }}</title>
+{% if seo.description %}<meta name="description" content="{{ seo.description }}" />{% endif %}
+<meta name="robots" content="{{ seo.robots }}" />
+{% if seo.canonical %}<link rel="canonical" href="{{ seo.canonical }}" />{% endif %}
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="{{ seo.og_type }}" />
+<meta property="og:site_name" content="{{ seo.site_name }}" />
+<meta property="og:title" content="{{ seo.og_title }}" />
+{% if seo.og_description %}<meta property="og:description" content="{{ seo.og_description }}" />{% endif %}
+{% if seo.og_url %}<meta property="og:url" content="{{ seo.og_url }}" />{% endif %}
+{% if seo.og_image %}<meta property="og:image" content="{{ seo.og_image }}" />{% endif %}
+<meta name="twitter:card" content="{{ seo.twitter_card }}" />
+<meta name="twitter:title" content="{{ seo.twitter_title }}" />
+{% if seo.twitter_description %}<meta name="twitter:description" content="{{ seo.twitter_description }}" />{% endif %}
+{% if seo.twitter_image %}<meta name="twitter:image" content="{{ seo.twitter_image }}" />{% endif %}
+{% if seo.jsonld %}<script type="application/ld+json">{{ seo.jsonld }}</script>{% endif %}
+{% else %}
+<title>Royal Home Service | A Cleaner Home, A Healthier You</title>
+{% endif %}

@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>{{ page_title|default:"Dashboard" }} · HomeServe Admin</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' },
+          surface: { 50: '#f8fafc', 100: '#f1f5f9', 800: '#1e293b', 900: '#0f172a' }
+        }
+      }
+    }
+  }
+</script>
+<link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+</head>
+<body class="h-full font-sans text-slate-900 antialiased selection:bg-brand-100 selection:text-brand-900">
+
+<!-- Mobile Top Bar -->
+<header class="sticky top-0 z-40 flex min-h-16 items-center justify-between gap-3 border-b border-slate-200 bg-white px-3 py-2 shadow-sm sm:px-4 lg:hidden">
+
+  
+  <!-- Mobile Menu Toggle (Pure CSS fallback using details, or standard JS if needed. Here is a simple flex nav) -->
+  <nav class="flex min-w-0 items-center gap-1 overflow-x-auto" aria-label="Admin sections">
+    <a href="{% url 'dashboard_orders' %}" class="whitespace-nowrap rounded-md px-2 py-2 text-xs font-medium {% if section == 'orders' or section == 'order_detail' %}bg-brand-50 text-brand-700{% else %}text-slate-600{% endif %}">Orders</a>
+    <a href="{% url 'dashboard_employees' %}" class="whitespace-nowrap rounded-md px-2 py-2 text-xs font-medium {% if section == 'employees' or section == 'employee_detail' %}bg-brand-50 text-brand-700{% else %}text-slate-600{% endif %}">Employees</a>
+    <a href="{% url 'dashboard_complaints' %}" class="whitespace-nowrap rounded-md px-2 py-2 text-xs font-medium {% if section == 'complaints' or section == 'complaint_detail' %}bg-brand-50 text-brand-700{% else %}text-slate-600{% endif %}">Complaints</a>
+    <a href="{% url 'dashboard_reviews' %}" class="whitespace-nowrap rounded-md px-2 py-2 text-xs font-medium {% if section == 'reviews' %}bg-brand-50 text-brand-700{% else %}text-slate-600{% endif %}">Reviews</a>
+  </nav>
+  <form method="post" action="{% url 'admin_logout' %}" class="shrink-0">
+    {% csrf_token %}
+    <button type="submit" class="rounded-lg border border-slate-200 px-2.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500">Log out</button>
+  </form>
+</header>
+
+<div class="flex h-full">
+  <!-- Desktop Sidebar -->
+  <aside class="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-slate-800 bg-surface-900 lg:flex">
+    <div class="flex h-16 items-center gap-3 px-6 border-b border-slate-800">
+      
+      <div>
+        
+        <span class="block text-[10px] font-medium text-slate-400 uppercase tracking-wider">Admin Workspace</span>
+      </div>
+    </div>
+
+    <nav class="flex-1 space-y-1 px-3 py-6">
+      <a href="{% url 'dashboard_orders' %}" class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors {% if section == 'orders' or section == 'order_detail' %}bg-brand-600 text-white{% else %}text-slate-300 hover:bg-slate-800 hover:text-white{% endif %}">
+        <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        Orders
+      </a>
+      <a href="{% url 'dashboard_employees' %}" class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors {% if section == 'employees' or section == 'employee_detail' %}bg-brand-600 text-white{% else %}text-slate-300 hover:bg-slate-800 hover:text-white{% endif %}">
+        <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        Employees
+      </a>
+      <a href="{% url 'dashboard_complaints' %}" class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors {% if section == 'complaints' or section == 'complaint_detail' %}bg-brand-600 text-white{% else %}text-slate-300 hover:bg-slate-800 hover:text-white{% endif %}">
+        <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.341c-.77 1.333.192 3.659 1.732 3.659z"/></svg>
+        Complaints
+      </a>
+      <a href="{% url 'dashboard_reviews' %}" class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors {% if section == 'reviews' %}bg-brand-600 text-white{% else %}text-slate-300 hover:bg-slate-800 hover:text-white{% endif %}">
+        <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.132a.563.563 0 00.475.344l5.532.443a.563.563 0 01.321.988l-4.217 3.602a.563.563 0 00-.182.557l1.288 5.394a.563.563 0 01-.84.61l-4.744-2.885a.563.563 0 00-.584 0l-4.744 2.885a.563.563 0 01-.84-.61l1.288-5.394a.563.563 0 00-.182-.557L3.018 10.406a.563.563 0 01.321-.988l5.532-.443a.563.563 0 00.475-.344l2.134-5.132z"/></svg>
+        Reviews
+      </a>
+    </nav>
+
+    <div class="border-t border-slate-800 p-4">
+      <form method="post" action="{% url 'admin_logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-slate-900">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          Log out
+        </button>
+      </form>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 lg:pl-64">
+    <div class="mx-auto max-w-7xl min-w-0 px-3 py-5 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+      
+      {% if messages %}
+      <div class="mb-6 space-y-2" role="status">
+        {% for message in messages %}
+        <div class="rounded-lg border px-4 py-3 text-sm shadow-sm flex items-center gap-3 {% if message.level_tag == 'error' %}border-red-200 bg-red-50 text-red-800{% elif message.level_tag == 'warning' %}border-amber-200 bg-amber-50 text-amber-800{% elif message.level_tag == 'success' %}border-emerald-200 bg-emerald-50 text-emerald-800{% else %}border-sky-200 bg-sky-50 text-sky-800{% endif %}">
+          {{ message }}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if section == 'orders' %}
+        {% include "admin/_dash_orders.html" %}
+      {% elif section == 'order_detail' %}
+        {% include "admin/_dash_order_detail.html" %}
+      {% elif section == 'employees' %}
+        {% include "admin/_dash_employees.html" %}
+      {% elif section == 'employee_detail' %}
+        {% include "admin/_dash_employee_detail.html" %}
+      {% elif section == 'complaints' %}
+        {% include "admin/_dash_complaints.html" %}
+      {% elif section == 'complaint_detail' %}
+        {% include "admin/_dash_complaint_detail.html" %}
+      {% elif section == 'reviews' %}
+        {% include "admin/_dash_reviews.html" %}
+      {% endif %}
+
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

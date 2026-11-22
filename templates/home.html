@@ -1,0 +1,596 @@
+{% extends 'index1.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ============================================================
+     ROYAL HOME SERVICES — PREMIUM HOMEPAGE
+     Design system: white / slate-50 · slate-900 text · blue-600 primary
+     WhatsApp = green-600. Preserves base template nav + footer.
+     ============================================================ -->
+{% include "litenave.html" %}
+
+
+
+
+
+
+<!-- ============ HERO (two-column, responsive) ============ -->
+<section id="home" class="bg-white">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12 pb-16 lg:pt-20 lg:pb-24">
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-16 lg:items-center">
+
+      <!-- Left: content -->
+      <div class="max-w-xl">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">Professional Home Cleaning</p>
+        <h1 class="mt-4 text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-slate-900 leading-[1.1]">
+          A Cleaner Home.<br class="hidden sm:block"> A Better Everyday.
+        </h1>
+        <p class="mt-6 text-base sm:text-lg text-slate-600 leading-relaxed">
+          Trusted home cleaning that gives you back your time. Our trained team arrives on schedule,
+          treats your space with care, and leaves it genuinely spotless — every visit.
+          Currently serving Rawalpindi, Islamabad, Taxila, Tarnol, and nearby areas.
+        </p>
+
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <a href="#book"
+             class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2">
+            Book a Cleaning
+          </a>
+          <a href="#services"
+             class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2">
+            Explore Our Services
+          </a>
+        </div>
+
+        <!-- Trust strip (substantiable claims only) -->
+        <ul class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-slate-600">
+          <li class="flex items-center gap-2">
+            <svg class="h-5 w-5 shrink-0 text-blue-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Trained professionals</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="h-5 w-5 shrink-0 text-blue-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Flexible scheduling</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="h-5 w-5 shrink-0 text-blue-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+            <span>Detail-first care</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Right: hero image -->
+      <div class="relative">
+        <img
+          src="{% static 'images/home.jpeg' %}"
+          alt="Professional cleaner working in a bright modern home"
+          class="aspect-[4/3] w-full rounded-2xl object-cover shadow-sm ring-1 ring-slate-200"
+          loading="eager" decoding="async">
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOOKING FORM ============ -->
+<section id="book" class="bg-slate-50 border-y border-slate-200">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
+    <div class="max-w-3xl">
+      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900">Book Your Cleaning Service</h2>
+      <p class="mt-2 text-slate-600">Fill in a few details and we’ll get back to you to confirm your visit.</p>
+    </div>
+
+   
+    <form id="book_form" class="mt-8 rounded-2xl bg-white border border-slate-200 shadow-sm p-5 sm:p-6 lg:p-8"
+      method="post" action="{% url 'home' %}" novalidate>
+  {% csrf_token %}
+
+  <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+
+    <!-- Full Name -->
+    <div class="min-w-0">
+      <label for="bk-name" class="block text-sm font-medium text-slate-700">Full name</label>
+      <input id="bk-name" name="name" type="text" required autocomplete="name"
+             class="mt-1.5 block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30 focus:outline-none"
+             placeholder="Jane Doe">
+      <p id="error-name" class="text-xs text-red-600 mt-1.5 hidden"></p>
+    </div>
+
+    <!-- Phone -->
+    <div class="min-w-0">
+      <label for="bk-phone" class="block text-sm font-medium text-slate-700">Phone number</label>
+      <input id="bk-phone" name="phone" type="tel" required autocomplete="tel"
+             class="mt-1.5 block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30 focus:outline-none"
+             placeholder="+1 (234) 567-890">
+      <p id="error-phone" class="text-xs text-red-600 mt-1.5 hidden"></p>
+    </div>
+
+    <!-- Address -->
+    <div class="min-w-0">
+      <label for="bk-address" class="block text-sm font-medium text-slate-700">Service address or city</label>
+      <input id="bk-address" name="address" type="text" required autocomplete="street-address"
+             class="mt-1.5 block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30 focus:outline-none"
+             placeholder="City, street address">
+      <p id="error-address" class="text-xs text-red-600 mt-1.5 hidden"></p>
+    </div>
+
+    <!-- Service -->
+    <div class="min-w-0">
+      <label for="bk-service" class="block text-sm font-medium text-slate-700">Cleaning service</label>
+      <select id="bk-service" name="service" required
+              class="mt-1.5 block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-900 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30 focus:outline-none">
+        <option value="" disabled selected>Select a service</option>
+        {% for category in nav_categories %}
+          
+        
+        <option value="{{ category.category_name }}">{{ category.category_name }}</option>
+        {% endfor %}
+        
+      </select>
+      <p id="error-service" class="text-xs text-red-600 mt-1.5 hidden"></p>
+    </div>
+
+    <!-- Date -->
+    <div class="min-w-0">
+      <label for="bk-date" class="block text-sm font-medium text-slate-700">Preferred date</label>
+      <input id="bk-date" name="date" type="date" required
+             class="mt-1.5 block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-900 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30 focus:outline-none">
+      <p id="error-date" class="text-xs text-red-600 mt-1.5 hidden"></p>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="flex items-end">
+      <button type="submit" id="bookSubmitBtn"
+              class="w-full inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed">
+        <span id="bookBtnText">Book Now</span>
+        <svg id="bookBtnSpinner" class="hidden ml-2 h-4 w-4 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- WhatsApp Chat Option -->
+  <div class="mt-6 flex flex-col sm:flex-row items-center gap-3 border-t border-slate-200 pt-5">
+    <span class="text-sm text-slate-500">Prefer to chat first?</span>
+    <a href="https://wa.me/923053000854?text=Hello!%20I’m%20interested%20in%20your%20cleaning%20services.%20How%20can%20you%20help%20me%3F" target="_blank" rel="noopener noreferrer"
+       class="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2">
+      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 004.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.13.11-1.82-.11-.42-.13-.96-.31-1.66-.61-2.92-1.26-4.83-4.2-4.97-4.4-.15-.2-1.19-1.58-1.19-3.02 0-1.44.75-2.14 1.02-2.44.27-.3.59-.37.79-.37.2 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.82 2 .89 2.15.07.15.12.32.02.52-.1.2-.15.32-.29.5-.15.18-.31.4-.44.53-.15.15-.3.31-.13.6.17.29.76 1.25 1.63 2.02 1.12 1 2.06 1.31 2.35 1.46.29.15.46.12.63-.07.17-.2.73-.85.93-1.14.2-.29.39-.24.66-.14.27.1 1.69.8 1.98.94.29.14.48.22.55.34.07.12.07.7-.17 1.38z"/></svg>
+      Chat on WhatsApp
+    </a>
+    <a href="tel:+923053000854" class="text-sm font-medium text-slate-600 hover:text-slate-900">
+      or call +923053000854
+    </a>
+  </div>
+</form>
+  </div>
+</section>
+
+<!-- ============ CLEANING SERVICES ============ -->
+<section id="services" class="bg-white border-b border-slate-200">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+    <header class="max-w-2xl">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">Our Services</p>
+      <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900">Home cleaning, tailored to you</h2>
+      <p class="mt-4 text-slate-600 leading-relaxed">
+        From a routine refresh to a full deep clean, choose the service that fits your home and schedule.
+      </p>
+    </header>
+
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {% for service in service_data %}
+      <!-- Service 1 -->
+      <article class="group rounded-2xl bg-white border border-slate-200 shadow-sm overflow-hidden flex flex-col transition hover:shadow-md hover:-translate-y-0.5">
+        <div class="aspect-[16/10] overflow-hidden bg-slate-100">
+          {% if service.image1 %}
+            <img src="{{ service.image1.url }}"
+                 alt="{{ service.title_h1 }}"
+                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                 loading="lazy" decoding="async">
+          {% else %}
+            <div class="flex h-full w-full items-center justify-center bg-slate-200 text-sm font-medium text-slate-500">
+              Image unavailable
+            </div>
+          {% endif %}
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <h3 class="text-lg font-semibold text-slate-900">{{ service.title_h1 }}</h3>
+          <p class="mt-2 text-sm text-slate-600 leading-relaxed flex-1">
+            {{ service.p1_1 |truncatewords:15}}
+          </p>
+          <a href="{% url 'explor' service.category.slug %}" class="mt-4 inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-700">
+            Learn more
+            <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/></svg>
+          </a>
+        </div>
+      </article>
+      {% endfor %}
+
+      <!-- Service 2 -->
+      
+    </div>
+
+    <div class="mt-10">
+      <a href="/#book"
+         class="inline-flex items-center justify-center rounded-lg bg-blue-800 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 focus-visible:ring-offset-2">
+        Book a Home Service
+        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY CHOOSE US (merged) ============ -->
+<section id="about" class="bg-slate-50 border-b border-slate-200">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+    <header class="max-w-2xl">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">Why Choose Us</p>
+      <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900">Cleaning you can rely on</h2>
+      <p class="mt-4 text-slate-600 leading-relaxed">
+        We combine trained professionals, clear communication, and a consistent process — so every visit meets the same standard.
+      </p>
+    </header>
+
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <!-- Feature 1 -->
+      <div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm transition hover:shadow-md">
+        <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </span>
+        <h3 class="mt-4 text-base font-semibold text-slate-900">Trusted Cleaning Professionals</h3>
+        <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+          Our team is trained on our cleaning standards and treats your home with care and respect.
+        </p>
+      </div>
+      <!-- Feature 2 -->
+      <div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm transition hover:shadow-md">
+        <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+        </span>
+        <h3 class="mt-4 text-base font-semibold text-slate-900">Attention to Detail</h3>
+        <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+          We work from a detailed checklist so the small things — baseboards, fixtures, edges — don’t get missed.
+        </p>
+      </div>
+      <!-- Feature 3 -->
+      <div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm transition hover:shadow-md">
+        <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </span>
+        <h3 class="mt-4 text-base font-semibold text-slate-900">Flexible Scheduling</h3>
+        <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+          Choose a time that works for you. We offer one-time, recurring, and last-minute bookings where available.
+        </p>
+      </div>
+      <!-- Feature 4 -->
+      <div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm transition hover:shadow-md">
+        <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+        </span>
+        <h3 class="mt-4 text-base font-semibold text-slate-900">Customer Satisfaction</h3>
+        <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+          If something isn’t right, tell us. We’ll work with you to make it right — no hassle.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="bg-white border-b border-slate-200">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+    <header class="max-w-2xl">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">How It Works</p>
+      <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900">Booking is simple</h2>
+      <p class="mt-4 text-slate-600">Four steps from enquiry to a spotless home.</p>
+    </header>
+
+    <ol class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <li class="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">1</span>
+        <h3 class="mt-4 text-base font-semibold text-slate-900">Choose Your Service</h3>
+        <p class="mt-2 text-sm text-slate-600 leading-relaxed">Pick the cleaning service that matches your needs and home.</p>
+      </li>
+      <li class="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">2</span>
+        <h3 class="mt-4 text-base font-semibold text-slate-900">Schedule Your Cleaning</h3>
+        <p class="mt-2 text-sm text-slate-600 leading-relaxed">Choose a date and time that works for you. We confirm your booking.</p>
+      </li>
+      <li class="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">3</span>
+        <h3 class="mt-4 text-base font-semibold text-slate-900">Our Team Gets to Work</h3>
+        <p class="mt-2 text-sm text-slate-600 leading-relaxed">Our professionals arrive on schedule and clean to our detailed checklist.</p>
+      </li>
+      <li class="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">4</span>
+        <h3 class="mt-4 text-base font-semibold text-slate-900">Enjoy Your Clean Home</h3>
+        <p class="mt-2 text-sm text-slate-600 leading-relaxed">Relax and enjoy the result — and reach out if anything needs attention.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ CUSTOMER TRUST (PLACEHOLDER — replace with real data) ============ -->
+
+<section id="reviews" class="bg-slate-50 border-b border-slate-200">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+    
+    <header class="max-w-2xl">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">Customer Trust</p>
+      <h2 class="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900">What our customers say</h2>
+      <p class="mt-4 text-slate-600">
+        Discover why homeowners across the region trust Royal Home Services for a consistently premium cleaning experience.
+      </p>
+    </header>
+
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      
+      {% for r in reviews %}
+        <figure class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm flex flex-col h-full">
+          
+          <!-- Stars & Avatar -->
+          <div class="flex items-center gap-4 mb-4">
+            <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-slate-100 border border-slate-200 text-slate-600 font-bold text-sm">
+              {{ r.name|slice:":1"|upper }}
+            </div>
+            <div>
+              <figcaption class="text-sm font-semibold text-slate-900">
+                {{ r.name }}
+              </figcaption>
+              <div class="flex gap-0.5 mt-0.5" aria-label="5 out of 5 stars">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 20 20"><path fill="#facc15" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                <svg class="w-3.5 h-3.5" viewBox="0 0 20 20"><path fill="#facc15" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                <svg class="w-3.5 h-3.5" viewBox="0 0 20 20"><path fill="#facc15" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                <svg class="w-3.5 h-3.5" viewBox="0 0 20 20"><path fill="#facc15" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                <svg class="w-3.5 h-3.5" viewBox="0 0 20 20"><path fill="#facc15" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Review Text -->
+          <blockquote class="flex-1 text-sm text-slate-600 leading-relaxed">
+            "{{ r.review|truncatewords:25 }}"
+          </blockquote>
+          
+          <!-- Date (Optional, shows at the bottom) -->
+          <p class="mt-4 text-xs font-medium text-slate-400">
+            {{ r.created_at|date:"M j, Y" }}
+          </p>
+          
+        </figure>
+      {% empty %}
+        <!-- Fallback if no reviews exist yet -->
+        <div class="col-span-full text-center py-10 bg-white rounded-2xl border border-slate-200 shadow-sm">
+          <p class="text-slate-500">No reviews yet. Be the first to share your experience!</p>
+        </div>
+      {% endfor %}
+
+    </div>
+
+    <p class="mt-6 text-xs text-slate-500">
+      * Showing verified customer feedback. To see more or leave your own review, visit our full reviews page.
+    </p>
+  </div>
+</section>
+
+
+<!-- ============ FINAL CALL TO ACTION ============ -->
+<section class="bg-white">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+    <div class="rounded-2xl border border-slate-200 bg-slate-50 px-6 py-12 sm:px-12 sm:py-16 text-center">
+      <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900">Ready for a Cleaner Home?</h2>
+      <p class="mt-3 mx-auto max-w-xl text-slate-600">
+        Book your cleaning today and let our team take care of the rest.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="#book"
+           class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2">
+          Book Your Cleaning
+        </a>
+        <a href="https://wa.me/923053000854?text=Hello!%20I’m%20interested%20in%20your%20cleaning%20services.%20How%20can%20you%20help%20me%3F" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 004.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.13.11-1.82-.11-.42-.13-.96-.31-1.66-.61-2.92-1.26-4.83-4.2-4.97-4.4-.15-.2-1.19-1.58-1.19-3.02 0-1.44.75-2.14 1.02-2.44.27-.3.59-.37.79-.37.2 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.82 2 .89 2.15.07.15.12.32.02.52-.1.2-.15.32-.29.5-.15.18-.31.4-.44.53-.15.15-.3.31-.13.6.17.29.76 1.25 1.63 2.02 1.12 1 2.06 1.31 2.35 1.46.29.15.46.12.63-.07.17-.2.73-.85.93-1.14.2-.29.39-.24.66-.14.27.1 1.69.8 1.98.94.29.14.48.22.55.34.07.12.07.7-.17 1.38z"/></svg>
+          Chat on WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- Booking Success Popup -->
+
+
+<!-- ========================================== -->
+<!-- ========================================== -->
+<!-- 1. MODERN POPUP HTML                       -->
+<!-- ========================================== -->
+<div id="modernPopupOverlay" class="fixed inset-0 z-[99999] hidden items-center justify-center bg-white/40 backdrop-blur-md px-4 transition-opacity duration-300">
+    <div id="modernPopupCard" class="relative w-full max-w-[400px] overflow-hidden rounded-2xl bg-white px-8 pt-12 pb-10 text-center shadow-[0_20px_60px_rgba(0,0,0,0.1)] border border-slate-100 transform scale-95 opacity-0 transition-all duration-300">
+        
+        <!-- Close Button -->
+        <button type="button" onclick="closeModernPopup()" class="absolute left-6 top-6 text-slate-400 hover:text-slate-700 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+
+        <!-- Success Icon -->
+        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-green-50">
+            <svg class="h-8 w-8 text-green-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+            </svg>
+        </div>
+
+        <!-- Text -->
+        <h3 class="text-2xl font-medium text-slate-900 mb-3 tracking-tight">Booking Confirmed!</h3>
+        <p id="modernPopupMsg" class="text-[15px] text-slate-500 leading-relaxed px-4">
+            Your booking has been submitted successfully! Our team will contact you shortly.
+        </p>
+
+        <!-- Blue Progress Bar -->
+        <div class="absolute bottom-0 left-0 h-1.5 bg-blue-50 w-full rounded-b-2xl">
+            <div id="modernPopupTimer" class="h-full bg-blue-600 rounded-b-2xl" style="width: 100%;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- 2. JAVASCRIPT (POPUP & AJAX)               -->
+<!-- ========================================== -->
+<!-- ========================================== -->
+<!-- JAVASCRIPT (POPUP & AJAX & ERRORS)         -->
+<!-- ========================================== -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    
+    // --- 1. POPUP LOGIC ---
+    window.openModernPopup = function(message) {
+        const overlay = document.getElementById('modernPopupOverlay');
+        const card = document.getElementById('modernPopupCard');
+        const msg = document.getElementById('modernPopupMsg');
+        const timer = document.getElementById('modernPopupTimer');
+        
+        if (!overlay || !card) return;
+        
+        if (message) msg.textContent = message;
+        
+        overlay.classList.remove('hidden');
+        overlay.classList.add('flex');
+        
+        setTimeout(() => {
+            card.classList.remove('scale-95', 'opacity-0');
+            card.classList.add('scale-100', 'opacity-100');
+        }, 10);
+
+        timer.style.transition = 'none';
+        timer.style.width = '100%';
+
+        setTimeout(() => {
+            timer.style.transition = 'width 3s linear';
+            timer.style.width = '0%';
+        }, 50);
+        
+        window.modernPopupTimeout = setTimeout(() => {
+            window.closeModernPopup();
+        }, 3000);
+    };
+
+    window.closeModernPopup = function() {
+        const overlay = document.getElementById('modernPopupOverlay');
+        const card = document.getElementById('modernPopupCard');
+        
+        if (!overlay || !card) return;
+
+        clearTimeout(window.modernPopupTimeout);
+        
+        card.classList.remove('scale-100', 'opacity-100');
+        card.classList.add('scale-95', 'opacity-0');
+        
+        setTimeout(() => {
+            overlay.classList.add('hidden');
+            overlay.classList.remove('flex');
+        }, 300);
+    };
+
+    // --- 2. AJAX FORM SUBMISSION WITH VALIDATION ---
+    const form = document.getElementById('book_form');
+    if (!form) {
+        console.error("Form 'book_form' not found.");
+        return;
+    }
+
+    // Helper to clear errors
+    const clearFieldError = (fieldName) => {
+        const input = form.querySelector(`[name="${fieldName}"]`);
+        const errorEl = document.getElementById(`error-${fieldName}`);
+        if (input) {
+            input.classList.remove('border-red-500', 'ring-red-500');
+            input.classList.add('border-slate-300');
+        }
+        if (errorEl) {
+            errorEl.textContent = '';
+            errorEl.classList.add('hidden');
+        }
+    };
+
+    // Helper to show errors
+    const showFieldError = (fieldName, message) => {
+        const input = form.querySelector(`[name="${fieldName}"]`);
+        const errorEl = document.getElementById(`error-${fieldName}`);
+        if (input) {
+            input.classList.add('border-red-500', 'ring-red-500');
+            input.classList.remove('border-slate-300');
+        }
+        if (errorEl) {
+            errorEl.textContent = message;
+            errorEl.classList.remove('hidden');
+        }
+    };
+
+    // Clear errors as user types
+    form.querySelectorAll('input, select').forEach(input => {
+        input.addEventListener('input', () => {
+            if (input.name) clearFieldError(input.name);
+        });
+        input.addEventListener('change', () => {
+            if (input.name) clearFieldError(input.name);
+        });
+    });
+
+    // Handle submit
+    form.addEventListener('submit', function (e) {
+        e.preventDefault(); 
+        e.stopPropagation();
+
+        const submitBtn = document.getElementById('bookSubmitBtn');
+        const btnText = document.getElementById('bookBtnText');
+        const btnSpinner = document.getElementById('bookBtnSpinner');
+        
+        // Clear all old errors before submitting
+        ['name', 'phone', 'address', 'service', 'date'].forEach(clearFieldError);
+
+        if (submitBtn) submitBtn.disabled = true;
+        if (btnText) btnText.textContent = 'Booking...';
+        if (btnSpinner) btnSpinner.classList.remove('hidden');
+
+        const formData = new FormData(form);
+
+        fetch(form.action || window.location.href, {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // SUCCESS: Show popup
+                form.reset();
+                window.openModernPopup(data.message);
+            } else if (data.errors) {
+                // ERROR: Show inline validation errors
+                Object.keys(data.errors).forEach(key => {
+                    showFieldError(key, data.errors[key]);
+                });
+            } else {
+                alert('An unexpected error occurred.');
+            }
+        })
+        .catch(error => {
+            console.error('AJAX Error:', error);
+            alert('A server error occurred. Please try again.');
+        })
+        .finally(() => {
+            // Restore button
+            if (submitBtn) submitBtn.disabled = false;
+            if (btnText) btnText.textContent = 'Book Now';
+            if (btnSpinner) btnSpinner.classList.add('hidden');
+        });
+    });
+});
+</script>
+
+
+{% endblock %}
